@@ -1,0 +1,104 @@
+{
+  "schema_version": 1,
+  "datasets": {
+    "supergpqa": {
+      "name": "SuperGPQA",
+      "publisher": "m-a-p",
+      "homepage": "https://huggingface.co/datasets/m-a-p/SuperGPQA",
+      "repository": "m-a-p/SuperGPQA",
+      "revision": "4430d4458112c7d4497fdcf94d7cc223313d6acf",
+      "split": "train",
+      "license": "ODC-BY-1.0",
+      "license_url": "https://opendatacommons.org/licenses/by/1-0/",
+      "data_card_url": "https://huggingface.co/datasets/m-a-p/SuperGPQA/blob/4430d4458112c7d4497fdcf94d7cc223313d6acf/README.md",
+      "files": [
+        {
+          "path": "SuperGPQA-all.jsonl",
+          "url": "https://huggingface.co/datasets/m-a-p/SuperGPQA/resolve/4430d4458112c7d4497fdcf94d7cc223313d6acf/SuperGPQA-all.jsonl",
+          "sha256": "28b998e70205ee95e540317b5adc06a06552a3961fb50b153df126b833f7a910",
+          "format": "jsonl"
+        }
+      ]
+    },
+    "lexam": {
+      "name": "LEXam",
+      "publisher": "LEXam-Benchmark",
+      "homepage": "https://huggingface.co/datasets/LEXam-Benchmark/LEXam",
+      "repository": "LEXam-Benchmark/LEXam",
+      "revision": "31e57ae395f92ed7284a4c28d278c55da892b898",
+      "split": "test",
+      "license": "CC-BY-4.0",
+      "license_url": "https://creativecommons.org/licenses/by/4.0/",
+      "data_card_url": "https://huggingface.co/datasets/LEXam-Benchmark/LEXam/blob/31e57ae395f92ed7284a4c28d278c55da892b898/README.md",
+      "files": [
+        {
+          "path": "mcq_4_choices/test-00000-of-00001.parquet",
+          "url": "https://huggingface.co/datasets/LEXam-Benchmark/LEXam/resolve/31e57ae395f92ed7284a4c28d278c55da892b898/mcq_4_choices/test-00000-of-00001.parquet",
+          "sha256": "f4c10c4271ca00fc74ff28c88fc6939479635d9ebe7b67ff8d8a28ca46d957e9",
+          "format": "parquet",
+          "config": "mcq_4_choices"
+        },
+        {
+          "path": "mcq_8_choices/test-00000-of-00001.parquet",
+          "url": "https://huggingface.co/datasets/LEXam-Benchmark/LEXam/resolve/31e57ae395f92ed7284a4c28d278c55da892b898/mcq_8_choices/test-00000-of-00001.parquet",
+          "sha256": "94e5ba863d8ff838c8ebb26ba81687ca353d92515b8581700e2978001bf6d19a",
+          "format": "parquet",
+          "config": "mcq_8_choices"
+        },
+        {
+          "path": "mcq_16_choices/test-00000-of-00001.parquet",
+          "url": "https://huggingface.co/datasets/LEXam-Benchmark/LEXam/resolve/31e57ae395f92ed7284a4c28d278c55da892b898/mcq_16_choices/test-00000-of-00001.parquet",
+          "sha256": "e952b7ba89c8d52b66a590911a5cf593a149fd59d060f6c9fcee7aec713255f9",
+          "format": "parquet",
+          "config": "mcq_16_choices"
+        },
+        {
+          "path": "mcq_32_choices/test-00000-of-00001.parquet",
+          "url": "https://huggingface.co/datasets/LEXam-Benchmark/LEXam/resolve/31e57ae395f92ed7284a4c28d278c55da892b898/mcq_32_choices/test-00000-of-00001.parquet",
+          "sha256": "fa6ec58e5489031ad753c3e3e99547c113dce38bdd1c231d5e0251c44b96f69f",
+          "format": "parquet",
+          "config": "mcq_32_choices"
+        }
+      ]
+    },
+    "mmlu_pro": {
+      "name": "MMLU-Pro",
+      "publisher": "TIGER-Lab",
+      "homepage": "https://huggingface.co/datasets/TIGER-Lab/MMLU-Pro",
+      "repository": "TIGER-Lab/MMLU-Pro",
+      "revision": "b189ec765aa7ed75c8acfea42df31fdae71f97be",
+      "split": "test",
+      "license": "MIT",
+      "license_url": "https://opensource.org/license/mit",
+      "data_card_url": "https://huggingface.co/datasets/TIGER-Lab/MMLU-Pro/blob/b189ec765aa7ed75c8acfea42df31fdae71f97be/README.md",
+      "files": [
+        {
+          "path": "data/test-00000-of-00001.parquet",
+          "url": "https://huggingface.co/datasets/TIGER-Lab/MMLU-Pro/resolve/b189ec765aa7ed75c8acfea42df31fdae71f97be/data/test-00000-of-00001.parquet",
+          "sha256": "0e24a191921c2f453518a537a8b2117bd137e7714d4ef1565e9ba06c1ecb9ad8",
+          "format": "parquet"
+        }
+      ]
+    },
+    "gpqa_diamond": {
+      "name": "GPQA Diamond",
+      "publisher": "Irving David Rein and the GPQA authors",
+      "homepage": "https://github.com/idavidrein/gpqa",
+      "repository": "idavidrein/gpqa",
+      "split": "gpqa_diamond",
+      "license": "CC-BY-4.0",
+      "license_url": "https://creativecommons.org/licenses/by/4.0/",
+      "archive_url": "https://raw.githubusercontent.com/idavidrein/gpqa/main/dataset.zip",
+      "archive_sha256": "461ae7329f15a3e35f8184d2dac24b990f34fdf12f366ca4062d8e6638cd08dc",
+      "archive_git_blob_sha1": "80788cb325c4d63bbccad56c2e393b33389348fe",
+      "files": [
+        {
+          "path": "dataset/gpqa_diamond.csv",
+          "sha256": "41d1213cd7a4998605a26c2798500652572007161b3a92817ba46b35befcd305",
+          "format": "csv",
+          "acquisition": "user_supplied_csv"
+        }
+      ]
+    }
+  }
+}

@@ -1,0 +1,8 @@
+{
+  "api": "native",
+  "model": "AutoTrust-JEV-9B",
+  "backend": "jev",
+  "checkpoint_env": "MODEL_PATH",
+  "device": "cuda:0",
+  "max_input_tokens": 16384
+}

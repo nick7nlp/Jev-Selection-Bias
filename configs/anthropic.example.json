@@ -1,0 +1,7 @@
+{
+  "api": "anthropic",
+  "model": "YOUR_MODEL_ID",
+  "endpoint_env": "ANTHROPIC_ENDPOINT",
+  "api_key_env": "ANTHROPIC_API_KEY",
+  "parameters": {"max_tokens": 4096, "thinking": {"type": "adaptive"}, "output_config": {"effort": "low"}}
+}

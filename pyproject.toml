@@ -1,0 +1,31 @@
+[build-system]
+requires = ["setuptools>=68"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "jev-selection-bias"
+version = "0.1.0"
+description = "Evaluation code and input manifests for selection bias in Jev-style System One models"
+readme = "README.md"
+requires-python = ">=3.10"
+dependencies = []
+
+[project.urls]
+Repository = "https://github.com/nick7nlp/Jev-Selection-Bias"
+Issues = "https://github.com/nick7nlp/Jev-Selection-Bias/issues"
+Paper = "https://arxiv.org/abs/2610.35826"
+
+[project.optional-dependencies]
+data = ["pyarrow>=14"]
+native = [
+    "torch==2.11.0",
+    "transformers==5.8.1",
+    "safetensors==0.7.0",
+    "accelerate>=1.1.0",
+]
+
+[project.scripts]
+jev-eval = "jev_eval.runner:main"
+
+[tool.setuptools.packages.find]
+include = ["jev_eval*"]

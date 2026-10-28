@@ -1,0 +1,7 @@
+{
+  "api": "jev",
+  "model": "jev-1.14.0",
+  "endpoint_env": "JEV_ENDPOINT",
+  "api_key_env": "JEV_API_KEY",
+  "parameters": {}
+}

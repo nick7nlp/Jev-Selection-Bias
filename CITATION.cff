@@ -1,0 +1,36 @@
+cff-version: 1.2.0
+message: >-
+  If you use this evaluation code or data manifests, please cite the
+  accompanying paper using the preferred citation below.
+type: software
+title: "Jev-Selection-Bias: Evaluation code and input manifests"
+version: 0.1.0
+repository-code: "https://github.com/nick7nlp/Jev-Selection-Bias"
+url: "https://github.com/nick7nlp/Jev-Selection-Bias"
+authors:
+  - family-names: Song
+    given-names: Mingyang
+  - family-names: Zheng
+    given-names: Mao
+  - family-names: Ma
+    given-names: Zhiyuan
+  - family-names: Zhou
+    given-names: Xinpeng
+preferred-citation:
+  type: article
+  title: "Understanding Jev-Style System One Models: Does Structure Reduce Selection Bias?"
+  authors:
+    - family-names: Song
+      given-names: Mingyang
+    - family-names: Zheng
+      given-names: Mao
+    - family-names: Ma
+      given-names: Zhiyuan
+    - family-names: Zhou
+      given-names: Xinpeng
+  year: 2026
+  journal: arXiv
+  identifiers:
+    - type: other
+      value: "arXiv:2610.35826"
+  url: "https://arxiv.org/abs/2610.35826"

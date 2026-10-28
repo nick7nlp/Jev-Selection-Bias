@@ -1,0 +1,7 @@
+{
+  "api": "chat",
+  "model": "YOUR_MODEL_ID",
+  "endpoint_env": "CHAT_ENDPOINT",
+  "api_key_env": "CHAT_API_KEY",
+  "parameters": {"reasoning_effort": "low", "max_completion_tokens": 4096}
+}

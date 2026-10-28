@@ -1,0 +1,40 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1040" height="322" viewBox="0 0 1040 322" role="img" aria-labelledby="title desc">
+  <title id="title">A simple test of selection bias</title>
+  <desc id="desc">The original-order request is shared by two sequences. Reordering adds a reverse order and six random orders. Repetition adds seven original-order requests. Both contain eight presentations. Question content and the full candidate set are unchanged.</desc>
+  <defs>
+    <marker id="arrow" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 1 1 L 9 5 L 1 9" fill="none" stroke="#8091a5" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>
+    </marker>
+  </defs>
+  <rect x="1" y="1" width="1038" height="320" rx="16" fill="#ffffff" stroke="#dce3eb"/>
+  <g font-family="Arial, Helvetica, sans-serif">
+    <text x="28" y="38" font-size="19" font-weight="700" fill="#25364b">Same question. Same options.</text>
+    <text x="1010" y="38" text-anchor="end" font-size="15" fill="#657388">Compare decisions across presentations</text>
+    <rect x="28" y="106" width="218" height="132" rx="12" fill="#f5f7fa" stroke="#dce3eb"/>
+    <text x="137" y="136" text-anchor="middle" font-size="13" font-weight="700" fill="#657388">SHARED FIRST REQUEST</text>
+    <text x="137" y="166" text-anchor="middle" font-size="20" font-weight="700" fill="#25364b">Original order</text>
+    <g fill="#8093b1">
+      <rect x="63" y="190" width="32" height="8" rx="4"/>
+      <rect x="102" y="190" width="32" height="8" rx="4"/>
+      <rect x="141" y="190" width="32" height="8" rx="4"/>
+      <rect x="180" y="190" width="32" height="8" rx="4"/>
+    </g>
+    <text x="137" y="220" text-anchor="middle" font-size="13" fill="#657388">Full candidate set</text>
+    <path d="M 246 172 H 273 V 124 H 303 M 273 172 V 237 H 303" fill="none" stroke="#8091a5" stroke-width="1.6" marker-end="url(#arrow)"/>
+    <path d="M 273 124 H 303" fill="none" stroke="#8091a5" stroke-width="1.6" marker-end="url(#arrow)"/>
+    <circle cx="273" cy="172" r="3" fill="#8091a5"/>
+    <rect x="315" y="66" width="697" height="112" rx="12" fill="#f1f5fb"/>
+    <text x="335" y="92" font-size="13" font-weight="700" letter-spacing="1" fill="#526b92">REORDER</text>
+    <text x="990" y="92" text-anchor="end" font-size="13" fill="#526b92">8 presentations</text>
+    <rect x="335" y="105" width="236" height="53" rx="8" fill="#ffffff" stroke="#d5dfed"/>
+    <text x="453" y="138" text-anchor="middle" font-size="19" font-weight="700" fill="#3e567a">Reverse order</text>
+    <path d="M 585 131 H 621" fill="none" stroke="#8091a5" stroke-width="1.6" marker-end="url(#arrow)"/>
+    <rect x="635" y="105" width="356" height="53" rx="8" fill="#ffffff" stroke="#d5dfed"/>
+    <text x="813" y="138" text-anchor="middle" font-size="19" font-weight="700" fill="#3e567a">6 random orders</text>
+    <rect x="315" y="194" width="697" height="84" rx="12" fill="#edf5f3"/>
+    <text x="335" y="220" font-size="13" font-weight="700" letter-spacing="1" fill="#4f827c">REPEAT</text>
+    <text x="990" y="220" text-anchor="end" font-size="13" fill="#4f827c">8 presentations</text>
+    <text x="335" y="253" font-size="19" font-weight="700" fill="#386b65">7 more requests in the original order</text>
+    <text x="1010" y="303" text-anchor="end" font-size="13" fill="#657388">Shared first request · 15 requests per question</text>
+  </g>
+</svg>
