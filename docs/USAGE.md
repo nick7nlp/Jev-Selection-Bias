@@ -4,6 +4,10 @@ Start with the [quick start](../README.md#quick-start) to install the package,
 prepare the primary collection, and run a five-question trial. All commands
 below run from the repository root.
 
+[Configuration](#http-configuration) · [Datasets](#dataset-selection) ·
+[Run options](#evaluation-and-scoring) · [Metrics](#metrics) ·
+[Read your results](#read-your-results)
+
 ## HTTP configuration
 
 Copy the example for your model's interface to `configs/model.local.json`:
@@ -19,6 +23,12 @@ Set the endpoint variable to the **complete request URL**, including its path,
 and set the key variable to your provider's key. Edit `model` in the copied
 configuration to the identifier your provider accepts. Use only `parameters`
 supported by that model and interface.
+
+The generative HTTP examples specify **output budgets** in `parameters`:
+`max_completion_tokens` for Chat Completions, `max_output_tokens` for Responses,
+and `max_tokens` for Anthropic Messages. The native configuration instead uses
+`max_input_tokens` to limit the **input**. These settings control different
+quantities; adapt them to the model and interface you use.
 
 If the provider returns a different model name, such as a dated snapshot, add
 an `accepted_model_names` list containing the expected response names. Keys
@@ -95,13 +105,54 @@ same candidate to another position does not count as changing the decision.
 The scorer returns per-presentation accuracy and cumulative metrics for each
 sequence.
 
-| Metric | Definition |
-| --- | --- |
-| Accuracy | Fraction of questions answered correctly at a given presentation. |
-| Cumulative failed questions | Number of questions answered incorrectly at least once so far, counting each question once. |
-| Distinct wrong candidates | Number of unique incorrect `(question, candidate)` pairs selected so far. This can exceed the question count when a model chooses multiple wrong options for the same question. |
-| Cumulative candidate agreement | Fraction of questions receiving the same candidate selection throughout the sequence so far. |
-| Retention of initial successes | Fraction of initially correct questions answered correctly throughout the sequence so far. |
+| Metric | JSON field | Definition |
+| --- | --- | --- |
+| Accuracy | `accuracy[arm]` | Fraction of questions answered correctly at a given presentation. |
+| Cumulative failed questions | `cumulative_failed_questions` | Number of questions answered incorrectly at least once so far, counting each question once. |
+| Distinct wrong candidates | `cumulative_distinct_wrong_candidates` | Number of unique incorrect `(question, candidate)` pairs selected so far. This can exceed the question count when a model chooses multiple wrong options for the same question. |
+| Cumulative candidate agreement | `cumulative_candidate_agreement` | Fraction of questions receiving the same candidate selection throughout the sequence so far. |
+| Retention of initial successes | `retained_initial_accuracy` | Fraction of initially correct questions answered correctly throughout the sequence so far. |
+
+Fractions are stored on a 0–1 scale. Retention is `null` when no question was
+correct initially. Cumulative error counts cannot decrease by construction;
+their growth and the comparison between sequences show how many additional
+errors the presentations reveal. Agreement measures consistency, so it should
+be read alongside correctness.
+
+## Read your results
+
+In the metrics JSON, `question_count` gives the number of evaluated questions.
+`models` maps each model name to its `accuracy` dictionary and two curves:
+`reordered` and `original_repeats`. Each curve has eight entries in presentation
+order. An entry's `arm` identifies the presentation and its matching accuracy
+value. Running only one protocol produces only that curve.
+
+After the [quick start](../README.md#quick-start), compare accuracy, agreement,
+and accumulated errors at the end of both sequences:
+
+```bash
+python3 - <<'PY'
+import json
+from pathlib import Path
+
+metrics = json.loads(Path("runs/trial-metrics.json").read_text())
+print(f"Questions: {metrics['question_count']}")
+for model, stats in metrics["models"].items():
+    print(f"\n{model}")
+    for sequence in ("reordered", "original_repeats"):
+        if sequence not in stats:
+            continue
+        last = stats[sequence][-1]
+        accuracy = stats["accuracy"][last["arm"]]
+        agreement = last["cumulative_candidate_agreement"]
+        failed = last["cumulative_failed_questions"]
+        wrong = last["cumulative_distinct_wrong_candidates"]
+        print(
+            f"  {sequence}: accuracy={accuracy:.1%}, agreement={agreement:.1%}, "
+            f"failed questions={failed}, distinct wrong candidates={wrong}"
+        )
+PY
+```
 
 ## Tests
 

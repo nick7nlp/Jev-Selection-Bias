@@ -20,16 +20,18 @@
   <a href="https://arxiv.org/abs/2610.35826">Paper</a> ·
   <a href="#quick-start">Quick start</a> ·
   <a href="#evaluation-data">Data</a> ·
-  <a href="#supported-models">Models</a> ·
+  <a href="#model-interfaces">Interfaces</a> ·
   <a href="#evaluation-protocol">Protocol</a> ·
+  <a href="docs/USAGE.md">Usage guide</a> ·
   <a href="#citation">Citation</a>
 </p>
 
 **A simple test: keep the question and options fixed, change their order.**
-We study selection bias in Jev, Jev reproductions, and LLMs by comparing
-reordered options with repeated presentations in the original order.
-Tracking individual decisions alongside accuracy reveals whether stable
-scores also mean stable choices.
+An unchanged accuracy score can hide changed decisions. We study selection
+bias in Jev, Jev reproductions, and LLMs by tracking which questions become
+incorrect and which wrong candidates are selected as options are reordered.
+Repeated presentations in the original order provide a reference for how
+consistently each model selects under identical inputs.
 
 <p align="center">
   <img src="assets/protocol.svg" width="960" alt="Two sequences share an initial original-order request. Reordering adds one reverse and six random orders; repetition adds seven original-order requests. Each sequence has eight presentations, with fifteen requests per question in total.">
@@ -67,10 +69,8 @@ python3 scripts/prepare_questions.py \
 This downloads the pinned sources and verifies the reconstructed inputs.
 For MMLU-Pro and GPQA Diamond, see the [data guide](docs/DATA_SOURCES.md).
 
-<details>
-<summary><b>Preview the requests without calling a model</b></summary>
-
-This creates the 75 requests for five questions without credentials or inference:
+**Optional: preview the test without credentials.** This writes the 75 request
+payloads for five questions without calling a model:
 
 ```bash
 python3 -m jev_eval run \
@@ -79,8 +79,6 @@ python3 -m jev_eval run \
   --config configs/jev.example.json \
   --output runs/requests.jsonl --dry-run
 ```
-
-</details>
 
 ### 3. Configure a model
 
@@ -95,7 +93,7 @@ export JEV_API_KEY="YOUR_API_KEY"
 Replace the placeholders with your provider's endpoint and key, and edit `model`
 in `configs/model.local.json` to the model ID accepted by that endpoint. The
 endpoint must be the **complete request URL**, including its path. For other
-interfaces, choose the matching [configuration below](#supported-models).
+interfaces, choose the matching [configuration below](#model-interfaces).
 
 ### 4. Evaluate and score
 
@@ -119,6 +117,10 @@ Remove `--limit 5` from **both** commands for the full primary collection, and c
 new output paths. Existing outputs are never overwritten. Use matching
 `--datasets`, `--limit`, and `--protocol` settings when running and scoring.
 
+`trial-selections.jsonl` contains individual decisions; `trial-metrics.json`
+contains accuracy and cumulative curves. See [read your results](docs/USAGE.md#read-your-results)
+for a short example that compares the two sequences.
+
 ## Evaluation data
 
 | Benchmark | Questions | Options per question |
@@ -138,7 +140,9 @@ contains every candidate permutation used by the test. Question and option text
 are reconstructed from the upstream datasets; see
 [data sources and attribution](docs/DATA_SOURCES.md).
 
-## Supported models
+## Model interfaces
+
+Choose the interface exposed by your provider or local model:
 
 | Interface | Configuration |
 | --- | --- |
@@ -169,10 +173,15 @@ returned keys to stable candidate identities before scoring.
 Moving a candidate to a different position does not itself count as changing
 the decision.
 
-The scorer measures **accuracy**, **cumulative failed questions**, **distinct
-wrong candidates**, **candidate agreement**, and **retention of initial
-successes**. See [metric definitions](docs/USAGE.md#metrics) for the meaning of
-each output.
+Read the metrics together:
+
+- **Accuracy** tracks the overall score at each presentation.
+- **Candidate agreement and retention** track whether choices stay the same
+  and whether initially correct answers remain correct.
+- **Cumulative failed questions and distinct wrong candidates** track how
+  errors accumulate across presentations, even when accuracy changes little.
+
+See [metric definitions and output fields](docs/USAGE.md#metrics) for details.
 
 ## Citation
 
