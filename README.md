@@ -1,4 +1,8 @@
-<h1 align="center">Understanding Jev-Style System One Models:<br>Does Structure Reduce Selection Bias?</h1>
+<h1 align="center">Jev-Selection-Bias</h1>
+
+<p align="center">
+  <b><a href="https://arxiv.org/abs/2610.35826">Understanding Jev-Style System One Models:<br>Does Structure Reduce Selection Bias?</a></b>
+</p>
 
 <p align="center">
   Mingyang Song · Mao Zheng · Zhiyuan Ma · Xinpeng Zhou<br>
@@ -22,17 +26,18 @@
 </p>
 
 **A simple test: keep the question and options fixed, change their order.**
-Does Jev-style structure make choices less sensitive to how the options are
-presented? We compare reordered options with repeated requests in the original
-order, tracking both accuracy and the stability of individual decisions.
+We study selection bias in Jev, Jev reproductions, and LLMs by comparing
+reordered options with repeated presentations in the original order.
+Tracking individual decisions alongside accuracy reveals whether stable
+scores also mean stable choices.
 
 <p align="center">
   <img src="assets/protocol.svg" width="960" alt="Two sequences share an initial original-order request. Reordering adds one reverse and six random orders; repetition adds seven original-order requests. Each sequence has eight presentations, with fifteen requests per question in total.">
 </p>
 
-This repository accompanies the [paper](https://arxiv.org/abs/2610.35826) with **evaluation code and input manifests**:
-exact question selections and permutations, scripts to reconstruct benchmark
-inputs, and a shared runner and scorer for HTTP APIs and native decision models.
+This repository provides **evaluation code and input manifests**: exact question
+selections and permutations, scripts to reconstruct the inputs, and a shared
+runner and scorer for HTTP interfaces and local decision models.
 
 ## Quick start
 
@@ -60,7 +65,7 @@ python3 scripts/prepare_questions.py \
 ```
 
 This downloads the pinned sources and verifies the reconstructed inputs.
-For MMLU-Pro and GPQA Diamond, see [additional datasets](#additional-datasets).
+For MMLU-Pro and GPQA Diamond, see the [data guide](docs/DATA_SOURCES.md).
 
 <details>
 <summary><b>Preview the requests without calling a model</b></summary>
@@ -118,7 +123,7 @@ new output paths. Existing outputs are never overwritten. Use matching
 
 | Benchmark | Questions | Options per question |
 | --- | ---: | --- |
-| [SuperGPQA](https://huggingface.co/datasets/m-a-p/SuperGPQA) | 1,200 | 10 |
+| [SuperGPQA](https://huggingface.co/datasets/m-a-p/SuperGPQA) | 1,200 | 4–10 |
 | [LEXam](https://huggingface.co/datasets/LEXam-Benchmark/LEXam) | 500 | 4, 8, 16, or 32 |
 | [MMLU-Pro](https://huggingface.co/datasets/TIGER-Lab/MMLU-Pro) | 300 | 8, 9, or 10 |
 | [GPQA Diamond](https://github.com/idavidrein/gpqa) | 198 | 4 |
@@ -133,57 +138,21 @@ contains every candidate permutation used by the test. Question and option text
 are reconstructed from the upstream datasets; see
 [data sources and attribution](docs/DATA_SOURCES.md).
 
-<a id="additional-datasets"></a>
-
-<details>
-<summary><b>Prepare MMLU-Pro and GPQA Diamond</b></summary>
-
-To prepare all four datasets, obtain the official GPQA Diamond CSV following
-[DATA_SOURCES.md](docs/DATA_SOURCES.md), then run:
-
-```bash
-python3 scripts/prepare_questions.py \
-  --gpqa-csv /path/to/gpqa_diamond.csv \
-  --output data/questions-all.jsonl
-```
-
-Use `--questions data/questions-all.jsonl` for evaluation and scoring. Omit
-`--datasets` to include all four benchmarks, or select any subset. To prepare
-MMLU-Pro without GPQA, use `--datasets supergpqa lexam mmlu_pro`; this does not
-require a GPQA CSV. See the data guide for offline reconstruction and attribution.
-
-</details>
-
 ## Supported models
 
-| Interface | Configuration | Environment variables |
-| --- | --- | --- |
-| Jev | [Jev example](configs/jev.example.json) | `JEV_ENDPOINT`, `JEV_API_KEY` |
-| Chat Completions | [Chat example](configs/chat.example.json) | `CHAT_ENDPOINT`, `CHAT_API_KEY` |
-| Responses | [Responses example](configs/responses.example.json) | `RESPONSES_ENDPOINT`, `RESPONSES_API_KEY` |
-| Anthropic Messages | [Messages example](configs/anthropic.example.json) | `ANTHROPIC_ENDPOINT`, `ANTHROPIC_API_KEY` |
-| Native decision head | [Native example](configs/native.example.json) | `MODEL_PATH` |
+| Interface | Configuration |
+| --- | --- |
+| Jev | [jev.example.json](configs/jev.example.json) |
+| Chat Completions | [chat.example.json](configs/chat.example.json) |
+| Responses | [responses.example.json](configs/responses.example.json) |
+| Anthropic Messages | [anthropic.example.json](configs/anthropic.example.json) |
+| Native decision head | [native.example.json](configs/native.example.json) |
 
 For **AutoTrust, StartLux, and other Jev reproductions**, follow the
 [native model guide](docs/NATIVE_MODELS.md) for model sources, dependencies, and
 backend selection. Set `MODEL_PATH` to a local model directory. Native evaluation
-uses the model's task format and decision head, with one worker.
-
-<details>
-<summary><b>Configuration and run options</b></summary>
-
-Copy the matching example to a `*.local.json` file. Set `model` and use only
-`parameters` supported by your provider. If the API returns a different model
-name, such as a dated snapshot, add `accepted_model_names` with the expected
-response names. Credentials stay in environment variables; local configurations,
-downloaded data, and run outputs are ignored by Git.
-
-Both commands default to the complete protocol. `--protocol orders` selects the
-eight reordered presentations; `--protocol repeats` selects eight original-order
-presentations. `--workers` controls HTTP concurrency and defaults to one.
-`--limit N` selects the first N questions in manifest order after dataset filtering.
-
-</details>
+uses the model's task format and decision head, with one worker. See the
+[usage guide](docs/USAGE.md) for configuration, run options, and scoring.
 
 ## Evaluation protocol
 
@@ -200,33 +169,10 @@ returned keys to stable candidate identities before scoring.
 Moving a candidate to a different position does not itself count as changing
 the decision.
 
-<details>
-<summary><b>What the scorer measures</b></summary>
-
-- **Accuracy:** fraction of questions answered correctly at each presentation.
-- **Cumulative failed questions:** questions answered incorrectly at least once
-  so far, counting each question once.
-- **Distinct wrong candidates:** unique incorrect `(question, candidate)` pairs
-  selected so far. This can exceed the question count if a model chooses multiple
-  wrong options for the same question.
-- **Cumulative candidate agreement:** fraction of questions receiving the same
-  candidate selection throughout the sequence so far.
-- **Retention of initial successes:** fraction of initially correct questions
-  answered correctly throughout the sequence so far.
-
-</details>
-
-<details>
-<summary><b>Run the tests</b></summary>
-
-```bash
-python3 -m unittest discover -s tests -v
-```
-
-The tests use synthetic questions and local mock HTTP servers. They do not call
-model providers.
-
-</details>
+The scorer measures **accuracy**, **cumulative failed questions**, **distinct
+wrong candidates**, **candidate agreement**, and **retention of initial
+successes**. See [metric definitions](docs/USAGE.md#metrics) for the meaning of
+each output.
 
 ## Citation
 
