@@ -24,7 +24,7 @@ and set the key variable to your provider's key. Edit `model` in the copied
 configuration to the identifier your provider accepts. Use only `parameters`
 supported by that model and interface.
 
-The generative HTTP examples specify **output budgets** in `parameters`:
+The generative HTTP examples default to a **16,384-token output budget** in `parameters`:
 `max_completion_tokens` for Chat Completions, `max_output_tokens` for Responses,
 and `max_tokens` for Anthropic Messages. The native configuration instead uses
 `max_input_tokens` to limit the **input**. These settings control different

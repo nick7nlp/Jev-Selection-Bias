@@ -3,5 +3,5 @@
   "model": "YOUR_MODEL_ID",
   "endpoint_env": "RESPONSES_ENDPOINT",
   "api_key_env": "RESPONSES_API_KEY",
-  "parameters": {"reasoning": {"effort": "low"}, "max_output_tokens": 4096}
+  "parameters": {"reasoning": {"effort": "low"}, "max_output_tokens": 16384}
 }
